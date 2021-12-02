@@ -74,3 +74,12 @@ annotated_data <- data.frame(vals = input) %>%
                             "decreased"))
 # this is the answer
 sum(annotated_data$direction=="increased", na.rm = TRUE)
+
+# notes from after completing this.
+# it turns out that base R has a diff() function.
+sum(diff(input)>0) # wow
+
+sum(diff(
+  input[3:length(input)] +
+    input[2:(length(input)-1)] +
+    input[1:(length(input)-2)]) > 0) # wow
