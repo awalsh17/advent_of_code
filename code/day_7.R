@@ -41,3 +41,9 @@ solve2 <- function(input){
 }
 solve2(test_input)
 solve2(input)
+
+# This one could have been easier if I had read the directions correctly.
+# This question is easier than I was making it - annoying!
+sum(abs(input - median(input))) # part 1 answer
+# part 2... no need to actually optimize.
+min(sapply(0:max(input), cost_function2, input)) #part 2 answer
