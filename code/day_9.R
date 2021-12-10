@@ -73,5 +73,8 @@ solve2 <- function(input){
 }
 solve2(input)
 
-# after I did this, I thought of a couple ways to seriousy clean it up
+# after I did this, I thought of a couple ways to seriously clean it up
 # but I wont bother
+# example 1 - add 9s all around the input so you dont have to handle the edges
+# better structure to store the coordinates and add new coords to the list
+
