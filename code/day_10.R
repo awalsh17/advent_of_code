@@ -9,18 +9,19 @@ test_input <- readLines(here::here("input/day10/test_input.txt"))
 # Sum the scores - it took me a long time to read these!
 
 # Solve ----
-
+open_vals <- c("(", "[", "{", "<")
+close_vals <- c(")", "]", "}", ">")
 score_line <- function(line) {
   line <- strsplit(line, "")[[1]]
   open <- c()
   close <- c()
   invalid <- NA
   for (i in line) {
-    if (i %in% c("(", "[", "{", "<")) {
-      open <- factor(c(as.character(open), i), levels = c("(", "[", "{", "<"))
+    if (i %in% open_vals) {
+      open <- factor(c(as.character(open), i), levels = open_vals)
     }
-    if (i %in% c(")", "]", "}", ">")) {
-      close <- factor(c(as.character(close), i), levels = c(")", "]", "}", ">"))
+    if (i %in% close_vals) {
+      close <- factor(c(as.character(close), i), levels = close_vals)
 
       if (as.numeric(close[length(close)]) == as.numeric(open[length(open)])) {
         open <- open[-length(open)]
@@ -55,11 +56,11 @@ complete_lines <- function(line) {
   close <- c()
   invalid <- NA
   for (i in line) {
-    if (i %in% c("(", "[", "{", "<")) {
-      open <- factor(c(as.character(open), i), levels = c("(", "[", "{", "<"))
+    if (i %in% open_vals) {
+      open <- factor(c(as.character(open), i), levels = open_vals)
     }
-    if (i %in% c(")", "]", "}", ">")) {
-      close <- factor(c(as.character(close), i), levels = c(")", "]", "}", ">"))
+    if (i %in% close_vals) {
+      close <- factor(c(as.character(close), i), levels = close_vals)
 
       if (as.numeric(close[length(close)]) == as.numeric(open[length(open)])) {
         open <- open[-length(open)]
@@ -71,7 +72,7 @@ complete_lines <- function(line) {
   }
   # reverse , numeric, then close
   if (is.na(invalid)) {
-    completion <- c(")", "]", "}", ">")[as.numeric(rev(open))]
+    completion <- close_vals[as.numeric(rev(open))]
     return(completion)
   } else {
     return(NA)
@@ -81,7 +82,7 @@ complete_lines(test_input[3])
 
 score_completions <- function(completions) {
   score <- 0
-  completions <- as.numeric(factor(completions, levels = c(")", "]", "}", ">")))
+  completions <- as.numeric(factor(completions, levels = close_vals))
   for (i in completions) {
     score <- score * 5 + i
   }
