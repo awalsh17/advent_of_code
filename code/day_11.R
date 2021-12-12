@@ -15,9 +15,7 @@ do_step <- function(input) {
   # add one
   input <- input + 1
   # binarize
-  new_bin <- input
-  new_bin[new_bin <= 9] <- 0
-  new_bin[new_bin > 9] <- 1
+  new_bin <- ifelse(input > 9, 1, 0)
 
   # If zeros - then step over
   while (sum(new_bin) > 0) {
@@ -32,9 +30,7 @@ do_step <- function(input) {
     input <- input + to_add
 
     # Find only the NEW 10+ values
-    new_bin2 <- input
-    new_bin2[new_bin2 <= 9] <- 0
-    new_bin2[new_bin2 > 9] <- 1
+    new_bin2 <- ifelse(input > 9, 1, 0)
     new_bin <- new_bin2 - flash_mat
   }
   # update the matrix
