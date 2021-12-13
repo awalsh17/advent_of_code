@@ -125,4 +125,4 @@ all_paths <- igraph::all_simple_paths(thegraph, from = anchors[1], to = anchors[
 
 # get_all_walks - cannot repeat start/end either
 # They will always start with start neighbors and end with end neighbors
-all_walks <- sapply(2:10, function(x) matrixcalc::matrix.power(theadj, x)["A", "A"])
+all_walks <- sapply(2:10, function(x) matrixcalc::matrix.power(theadj, x)["start", "end"])
