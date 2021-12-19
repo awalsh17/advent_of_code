@@ -93,41 +93,31 @@ inputm <- solve1(input) # 472 # SLOW
 # Getting all the rotation matrices sucks
 # I could not figure this out - did manually
 # should be 24: https://stackoverflow.com/questions/16452383/how-to-get-all-24-rotations-of-a-3-dimensional-array
-myrots <- list(diag(c(-1,1,-1)),
-               diag(c(-1,-1,-1)),
-               diag(c(1,1,1)),
-             diag(c(1,-1,-1)),
-             diag(c(-1,-1,1)),
-             diag(c(-1,1,1)),
-             diag(c(1,-1,1)),
-             diag(c(1,1,-1)),
-             matrix(c(0,-1,0,-1,0,0,0,0,-1), 3, 3),
-             matrix(c(0,1,0,1,0,0,0,0,1), 3, 3),
-             matrix(c(0,-1,0,1,0,0,0,0,1), 3, 3),
-             matrix(c(0,1,0,-1,0,0,0,0,1), 3, 3),
-             matrix(c(0,1,0,1,0,0,0,0,-1), 3, 3),
-             matrix(c(0,-1,0,-1,0,0,0,0,1), 3, 3),
-             matrix(c(0,-1,0,1,0,0,0,0,-1), 3, 3),
-             matrix(c(0,1,0,-1,0,0,0,0,-1), 3, 3),
-
-             matrix(c(-1,0,0,0,0,-1,0,-1,0), 3, 3),
-             matrix(c(1,0,0,0,0,1,0,-1,0), 3, 3),
-             matrix(c(1,0,0,0,0,-1,0,1,0), 3, 3),
-             matrix(c(-1,0,0,0,0,1,0,1,0), 3, 3),
-
-             matrix(c(0,0,1, -1,0,0, 0,-1,0), 3, 3),
-             matrix(c(0,0,-1, 1,0,0, 0,-1,0), 3, 3),
-             matrix(c(0,0,-1, -1,0,0, 0,1,0), 3, 3),
-             matrix(c(0,0,1, 1,0,0, 0,1,0), 3, 3),
-
-             matrix(c(0,0,1, 0,1,0, 1,0,0), 3, 3),
-             matrix(c(0,0,1, 0,-1,0, 1,0,0), 3, 3),
-             matrix(c(0,0,1, 0,1,0, -1,0,0), 3, 3),
-             matrix(c(0,0,-1, 0,1,0, 1,0,0), 3, 3),
-             matrix(c(0,0,-1, 0,-1,0, 1,0,0), 3, 3),
-             matrix(c(0,0,-1, 0,1,0, -1,0,0), 3, 3),
-             matrix(c(0,0,1, 0,-1,0, -1,0,0), 3, 3),
-             matrix(c(0,0,-1, 0,-1,0, -1,0,0), 3, 3)
+rots <- list(
+  matrix(c(0, 0, -1, 0, 1, 0, 1, 0, 0), 3, 3),
+  matrix(c(0, 0, 1, 0, -1, 0, 1, 0, 0), 3, 3),
+  matrix(c(0, 1, 0, 0, 0, 1, 1, 0, 0), 3, 3),
+  matrix(c(0, -1, 0, 0, 0, -1, 1, 0, 0), 3, 3),
+  matrix(c(0, 0, 1, 0, 1, 0, -1, 0, 0), 3, 3),
+  matrix(c(0, 0, -1, 0, -1, 0, -1, 0, 0), 3, 3),
+  matrix(c(0, -1, 0, 0, 0, 1, -1, 0, 0), 3, 3),
+  matrix(c(0, 1, 0, 0, 0, -1, -1, 0, 0), 3, 3),
+  matrix(c(0, 0, 1, 1, 0, 0, 0, 1, 0), 3, 3),
+  matrix(c(0, 0, -1, -1, 0, 0, 0, 1, 0), 3, 3),
+  matrix(c(-1, 0, 0, 0, 0, 1, 0, 1, 0), 3, 3),
+  matrix(c(1, 0, 0, 0, 0, -1, 0, 1, 0), 3, 3),
+  matrix(c(0, 0, -1, 1, 0, 0, 0, -1, 0), 3, 3),
+  matrix(c(0, 0, 1, -1, 0, 0, 0, -1, 0), 3, 3),
+  matrix(c(1, 0, 0, 0, 0, 1, 0, -1, 0), 3, 3),
+  matrix(c(-1, 0, 0, 0, 0, -1, 0, -1, 0), 3, 3),
+  matrix(c(0, -1, 0, 1, 0, 0, 0, 0, 1), 3, 3),
+  matrix(c(0, 1, 0, -1, 0, 0, 0, 0, 1), 3, 3),
+  matrix(c(1, 0, 0, 0, 1, 0, 0, 0, 1), 3, 3),
+  matrix(c(-1, 0, 0, 0, -1, 0, 0, 0, 1), 3, 3),
+  matrix(c(0, 1, 0, 1, 0, 0, 0, 0, -1), 3, 3),
+  matrix(c(0, -1, 0, -1, 0, 0, 0, 0, -1), 3, 3),
+  matrix(c(-1, 0, 0, 0, 1, 0, 0, 0, -1), 3, 3),
+  matrix(c(1, 0, 0, 0, -1, 0, 0, 0, -1), 3, 3)
 )
 
 
@@ -173,7 +163,7 @@ max(dist(test_answer, method = "manhattan"))
 completed <- c()
 final_res <- list()
 base <- c(0)
-final_res[[0+1]] <- list(new_post = matrix(c(0,0,0),nrow=1, ncol=3),
+final_res[[0+1]] <- list(new_post = matrix(c(0,0,0),nrow=1),
                          rotation = diag(c(1,1,1)))
 while(length(completed) < 38) {
 # for (x in 1:6) {
@@ -189,6 +179,7 @@ while(length(completed) < 38) {
 
     if (length(nextup) > 0) {
     for (j in nextup) {
+      print(paste("j",j))
       final_res[[j+1]] <- get_scanner_pos(inputm,
                                           input, i, j,
                                           shift = final_res[[i+1]]$new_post,
