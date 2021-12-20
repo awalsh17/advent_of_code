@@ -72,3 +72,24 @@ solve2 <- function(input, instr, steps = 50) {
 solve2(test, tinstr)
 # this is slow, I am probably not efficient
 solve2(input, instr)
+
+# After finishing, I learned from Heather to skip the
+# paste and strtoi - still slow, but cooler :)
+# could use one loop instead?
+do_step <- function(image, instr, inf_state = 0) {
+  # add 2 border
+  ndim <- nrow(image)
+  new_image <- (matrix(inf_state, ndim + 4, ndim + 4))
+  new_image[3:(2 + ndim), 3:(2 + ndim)] <- image
+  image <- new_image
+  # enhance!
+  for (i in 2:(nrow(new_image) - 1)) {
+    for (j in 2:(nrow(new_image) - 1)) {
+      kernel <- image[(i - 1):(i + 1), (j - 1):(j + 1)]
+      new_pixel <- instr[c(t(kernel)) %*% 2^c(8:0) + 1] # 1-index
+      new_image[i, j] <- new_pixel
+    }
+  }
+  # return
+  return(new_image[2:(nrow(new_image) - 1), 2:(nrow(new_image) - 1)])
+}
