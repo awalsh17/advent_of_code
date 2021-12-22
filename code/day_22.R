@@ -4,26 +4,22 @@ options(scipen = 999999)
 # Input ----
 input <- read.table(here::here("input/day22/input.txt"),
   col.names = c("dir", "xyz"),
-  sep = " "
-) %>%
+  sep = " " ) %>%
   dplyr::mutate(xyz = gsub("x=|y=|z=", "", xyz)) %>%
   tidyr::separate(xyz,
     into = c("x1", "x2", "y1", "y2", "z1", "z2"),
     convert = TRUE,
-    sep = ",|\\.\\."
-  )
+    sep = ",|\\.\\.")
 
 
 test <- read.table(here::here("input/day22/test2.txt"),
   col.names = c("dir", "xyz"),
-  sep = " "
-) %>%
+  sep = " ") %>%
   dplyr::mutate(xyz = gsub("x=|y=|z=", "", xyz)) %>%
   tidyr::separate(xyz,
     into = c("x1", "x2", "y1", "y2", "z1", "z2"),
     convert = TRUE,
-    sep = ",|\\.\\."
-  )
+    sep = ",|\\.\\.")
 
 # Part 1 instructions ----
 # how many cubes are on?
@@ -32,7 +28,8 @@ test <- read.table(here::here("input/day22/test2.txt"),
 # parse input to data.frame
 
 # initialize cubes
-cubes <- as.data.frame(expand.grid(x = c(-50:50), y = c(-50:50), z = c(-50:50)))
+cubes <- as.data.frame(
+  expand.grid(x = c(-50:50), y = c(-50:50), z = c(-50:50)))
 cubes$state <- 0
 
 # run steps
@@ -41,7 +38,9 @@ for (i in seq_len(nrow(input))) {
   cubes <- cubes %>%
     dplyr::mutate(
       inrange =
-        between(x, r$x1, r$x2) & between(y, r$y1, r$y2) & between(z, r$z1, r$z2),
+        between(x, r$x1, r$x2) &
+        between(y, r$y1, r$y2) &
+        between(z, r$z1, r$z2),
       state = case_when(
         r$dir == "on" & inrange ~ 1,
         r$dir == "off" & inrange ~ 0,
@@ -72,8 +71,7 @@ volume <- function(v) { # get volume
 }
 check_intersect <- function(v1, v2) { # T/F intersect
   # New idea: what about to check if cube entirely inside other cube?
-  # true if intersect
-  # true if 1 inside the other
+  # true if intersect and true if 1 inside the other
   (v1[2] >= v2[1]) & (v1[1] <= v2[2]) &
     (v1[4] >= v2[3]) & (v1[3] <= v2[4]) &
     (v1[6] >= v2[5]) & (v1[5] <= v2[6])
@@ -175,7 +173,7 @@ do_step <- function(all_cubes, step, input) {
 solve2 <- function(input) {
   all_cubes <- input[1, ]
   for (i in 2:nrow(input)) { # check all the cubes
-    all_cubes <- do_step(all_cubes, i)
+    all_cubes <- do_step(all_cubes, i, input)
   }
   all_cubes$volume <- apply(all_cubes[, -1], 1, volume)
   sum(all_cubes$volume)
