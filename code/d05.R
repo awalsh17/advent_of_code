@@ -33,7 +33,7 @@ solve1 <- function(input1, input2){
 solve1(dummy, dummy_crates)
 solve1(real, real_crates)
 
-solve2 <- function(input) {
+solve2 <- function(input1, input2) {
   for (line in 1:nrow(input1)) {
     moving <- input2[[input1$V4[line]]][1:input1$V2[line]]
     # add
@@ -45,3 +45,6 @@ solve2 <- function(input) {
   paste(lapply(input2, function(x) x[1]), collapse = "")
   # return(input2)
 }
+
+solve2(dummy, dummy_crates)
+solve2(real, real_crates)
