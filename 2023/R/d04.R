@@ -1,7 +1,6 @@
 # day3
-library(dplyr)
 
-# read.fwf is great for reading in a grid
+# Did some parsing that could have been simpler
 test <- read.delim("inputs/input4test", sep = "|", header = F)
 test$V1 <- stringr::str_remove(test$V1, "Card [0-9]+: ")
 input <- read.delim("inputs/input4.txt", sep = "|", header = F)
@@ -22,7 +21,7 @@ solve1(input)
 # how many total scratchcards do you end up with?
 
 solve2 <- function(input) {
-  # get the winning numbers
+  # repeat from part 1
   winning_numbers <- lapply(strsplit(input$V1, " "), \(x) as.numeric(x))
   your_numbers <- lapply(strsplit(input$V2, " "), \(x) na.omit(as.numeric(x)))
   # run a loop and update the n of each card as you go
@@ -39,6 +38,5 @@ solve2 <- function(input) {
   sum(total_cards, na.rm = TRUE)
 }
 solve2(input)
-
 
 # This felt like an easier one for me - you get warnings with this code that I ignore!
