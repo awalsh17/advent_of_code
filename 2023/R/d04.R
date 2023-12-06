@@ -1,4 +1,4 @@
-# day3
+# day4
 
 # Did some parsing that could have been simpler
 test <- read.delim("inputs/input4test", sep = "|", header = F)
