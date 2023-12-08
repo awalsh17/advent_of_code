@@ -1,7 +1,7 @@
 # day1
 
-input <- readLines("~/Downloads/input1.txt")
-test <- readLines("~/Downloads/input1test.txt")
+input <- readLines("inputs/input1.txt")
+test <- readLines("inputs/input1test.txt")
 
 solve1 <- function(input) {
   # regex for the first digit in each line
