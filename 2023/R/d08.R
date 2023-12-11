@@ -110,4 +110,4 @@ Reduce(lcm, c(21409, 11653, 19241, 12737, 14363, 15989))
 # part 2 would be crazy slow to brute force, so you need a trick
 # the trick is that each start -> end while just loop at some interval
 # you need to get the smallest number they all multiply to
-# I would love a solution where I did not have to use pracma::Lcd
+# I would love a solution where I did not have to use pracma::Lcm
