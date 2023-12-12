@@ -7,3 +7,7 @@
 .DS_Store
 *.Rproj
 
+# inputs
+2023/inputs/*
+2022/inputs/*
+2021/inputs/*
