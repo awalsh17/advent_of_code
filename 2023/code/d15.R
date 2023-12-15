@@ -21,4 +21,4 @@ run_algo(input)
 
 # deep thoughts -----
 # hm. part one was easy.
-# just reading part 2 was too much for me. so long
+# just reading part 2 was too much reading for me. so long
