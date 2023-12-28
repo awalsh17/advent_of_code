@@ -4,7 +4,7 @@ library(igraph)
 # get the data -----
 source("R/get_input.R")
 input <- get_input("17")
-input <- c(
+test <- c(
  "2413432311323",
  "3215453535623",
  "3255245654254",
@@ -21,21 +21,27 @@ input <- c(
 )
 # make a graph with edge weights
 # this is super inefficient - so I should redo this. All I need is adj matrix!
-width <- nchar(test[1])
-gridi <- test |> strsplit(split = "") |> unlist() |> matrix(ncol = width, byrow = TRUE)
-all_edges <- data.frame()
-for (i in 1:ncol(gridi)) {
- for (j in 1:nrow(gridi)) {
-  if (i < ncol(gridi)) all_edges <- rbind(all_edges, c(paste0(i,".",j), paste0(i+1,".",j), gridi[i+1, j], "R"))
-  if (j < nrow(gridi)) all_edges <- rbind(all_edges, c(paste0(i,".",j), paste0(i,".",j+1), gridi[i, j+1], "D"))
-  if (i > 1) all_edges <- rbind(all_edges, c(paste0(i,".",j), paste0(i-1,".",j), gridi[i-1, j], "L"))
-  if (j > 1) all_edges <- rbind(all_edges, c(paste0(i,".",j), paste0(i,".",j-1), gridi[i, j-1], "R"))
+parse_input <- function(input) {
+ width <- nchar(test[1])
+ gridi <- test |> strsplit(split = "") |> unlist() |> matrix(ncol = width, byrow = TRUE)
+ all_edges <- data.frame()
+ for (i in 1:ncol(gridi)) {
+  for (j in 1:nrow(gridi)) {
+   if (i < ncol(gridi)) all_edges <- rbind(all_edges, c(paste0(i,".",j), paste0(i+1,".",j), gridi[i+1, j], "R"))
+   if (j < nrow(gridi)) all_edges <- rbind(all_edges, c(paste0(i,".",j), paste0(i,".",j+1), gridi[i, j+1], "D"))
+   if (i > 1) all_edges <- rbind(all_edges, c(paste0(i,".",j), paste0(i-1,".",j), gridi[i-1, j], "L"))
+   if (j > 1) all_edges <- rbind(all_edges, c(paste0(i,".",j), paste0(i,".",j-1), gridi[i, j-1], "R"))
+  }
  }
+ names(all_edges) <- c("from", "to", "weight", "dir")
+ all_edges$weight <- as.numeric(all_edges$weight)
+ g <- graph_from_data_frame(all_edges, directed = TRUE)
+ adj_graph <- igraph::as_adj(g, attr = "weight", sparse = F)
+ return(adj_graph)
 }
-names(all_edges) <- c("from", "to", "weight", "dir")
-all_edges$weight <- as.numeric(all_edges$weight)
-g <- graph_from_data_frame(all_edges, directed = TRUE)
-adj_graph <- igraph::as_adj(g, attr = "weight", sparse = F)
+
+test_adj <- parse_input(test)
+adj_graph <- parse_input(input)
 
 # part 1 ------
 # hm. now to get the paths from 1.1 to width.width
@@ -44,10 +50,11 @@ shortest.paths(g, "1.1", "141.141", algorithm = "dijkstra")
 
 # use new function
 source("2023/code/dijkstra_steps.R")
-dijkstra_steps(adj_graph, start = 1, stop = 19881)
-# get 99 on the example... have to add 3 for last step to get 102
-# get 858 on the real input. added 3 to get 861 (too low)
-# this has got to be really close
+dijkstra_steps(test_adj, start = 1, stop = 5, max_steps = 3)
+dijkstra_steps(adj_graph, start = 1, stop = 19881, max_steps = 3)
+# example answer is 102
+# get 858 on the real input. added 3 to get 861 (too low) 907 is too high
+# answer is 866
 
 # part 2 ------
 

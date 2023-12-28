@@ -2,7 +2,7 @@
 # https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm
 #' graph is adjacency matrix
 #' start is index of start in that matrix
-dijkstra_steps <- function(graph, start, stop) {
+dijkstra_steps <- function(graph, start, stop, max_steps = 3) {
  # normally, you just track visited and distance
  # here we need visited, distance, direction, steps taken in that direction
  graph_width <- sqrt(nrow(graph))
@@ -35,7 +35,7 @@ dijkstra_steps <- function(graph, start, stop) {
   
 
   if (shortest_index == stop) {
-   # return(list("dist" = distances, "prev" = prev))
+   # return(list("dist" = distances, "prev" = prev)) # debug
    return(distances[stop])
   }
   # Get the *valid* neighbors
@@ -47,7 +47,7 @@ dijkstra_steps <- function(graph, start, stop) {
     as.numeric(strsplit(node_names[i], "\\.")[[1]])
    new_dir <- which(colSums(t(map_dir) == dir_proposed) == ncol(map_dir))
    if ((new_dir != dir_visited[shortest_index]) | 
-       (new_dir == dir_visited[shortest_index] & dir_steps[shortest_index] <= 3)) {
+       (new_dir == dir_visited[shortest_index] & dir_steps[shortest_index] < max_steps)) {
     # ...if the path over this edge is shorter...
     if (distances[i] > (distances[shortest_index] + graph[shortest_index, i])) {
      # ...save this path as new shortest path.
